@@ -1,0 +1,60 @@
+extends Label
+
+var animating = false
+
+signal animation_finalized
+var animation_depth = 0
+const max_characters = 150
+
+const test_text = "adfadf dfa was geht denn so adfadf dfa was geht denn so adfadf dfa was geht denn so adfadf dfa was geht denn so adfadf dfa was geht denn so adfadf dfa was geht denn so adfadf dfa was geht denn sowhile aanimation_depth > 0:dfadf dfa was geht denn soA  animation_depth > 0:dfadf dfa was geht denn so panimation_depth > 0:dfadf dfa was geht denn soA Animation_depth > 0:dfadf dfa was geht denn soA"
+
+func _ready():
+	# when loading the label test how many lines can display
+	#self.linecount = self.get_visible_line_count()
+	#print(self.get_line_height())
+	display_text_portionwhise(test_text)
+
+func display_text_portionwhise(text):
+	# displays many text blocks after another animated, always fitting the mesage box
+	# TODO: how do I know how much text fits?
+	var charamnt = len(text)
+	for i in range(0, int(charamnt / self.get_visible_characters()) + 1):
+		print("showed")
+		hide_change_show(text.substr(self.get_visible_characters()*i, self.get_visible_characters()*(i+1) if self.get_visible_characters()*(i+1) < charamnt else charamnt ))
+		while animation_depth > 0:
+			yield(self, "animation_finalized")
+		print("hidden")
+
+func hide():
+	# Hides the message box, by playing hide animation
+	assert(self.animation_depth == 0)
+	var ani =  get_parent().get_node("box_animations")
+	self.animation_depth += 1
+	ani.play("hide")
+	yield(ani,"animation_finished")
+	self.animating = false
+	self.animation_depth -= 1
+	emit_signal("animation_finalized")
+	
+
+func show():
+	# Displays the message box, by reverse hiding
+	assert(self.animation_depth == 0) 
+	var ani = get_parent().get_node("box_animations")
+	self.animation_depth += 1
+	ani.play_backwards("hide")
+	yield(ani,"animation_finished")
+	self.animating = false
+	self.animation_depth -= 1
+	emit_signal("animation_finalized")
+
+func hide_change_show(text):
+	# does function name
+	self.animation_depth += 1
+	hide()
+	while animation_depth > 1:
+		yield(self, "animation_finalized")
+	self.text = text
+	show()
+	self.animation_depth -= 1
+	emit_signal("animation_finalized")

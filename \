@@ -1,0 +1,31 @@
+extends Node
+
+var walking_dir = 0 # holds the walking direction
+var walk_speed = 4
+
+var walk_matrix = Array()
+
+func _ready():
+	print("ready called")
+	walk_matrix.append(Vector2(0.0, 0.0))
+	walk_matrix.append(Vector2(1.0, 0.0)) # up
+	walk_matrix.append(Vector2(0.0, 1.0)) # right 
+	walk_matrix.append(Vector2(-1.0, 0.0)) # down 
+	walk_matrix.append(Vector2(0.0, -1.0)) # left
+	pass
+
+func _process(delta):
+	# first process the inputs
+	if(Input.is_action_pressed("ui_up")):
+		print("up_event")
+		walking_dir = 1
+	# TODO: other dirs
+	process_walking(delta)
+
+func process_walking(delta):
+	if(walking_dir != 0):
+		print("walking")
+		# multiply delta so framerate independent
+		self.position.x += walk_speed * walk_matrix[walking_dir].x
+		self.position.y += walk_speed * walk_matrix[walking_dir].y
+

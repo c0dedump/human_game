@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://grid.gd" type="Script" id=1]
+
+[node name="root" type="Node2D"]
+
+[node name="grid" type="Node2D" parent="."]
+position = Vector2( 249.182, 43.4182 )
+script = ExtResource( 1 )
+width = 8
+height = 8
+x = 0
+y = 0
