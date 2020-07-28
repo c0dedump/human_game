@@ -6,6 +6,8 @@ signal animation_finalized
 signal confirmed
 signal dialogue_finalized
 
+var active_message = true
+
 var awaiting_confirmation
 var animation_depth = 0
 const max_chars = 150
@@ -18,8 +20,8 @@ func _ready():
 	# when loading the label test how many lines can display
 	#self.linecount = self.get_visible_line_count()
 	#print(self.get_line_height())
-	hide_m(0)
-	pass
+	hide_m(0) # TODO: make hidden by default
+	self.active_message = false
 
 func _process(delta):
 	if awaiting_confirmation:
@@ -27,8 +29,8 @@ func _process(delta):
 			emit_signal("confirmed")
 
 func display_text_portionwhise(text):
+	self.active_message = true
 	# displays many text blocks after another animated, always fitting the mesage box
-	# TODO: how do I know how much text fits?
 	var charamnt = len(text)
 	for i in range(0, int(charamnt / self.max_chars + 1)):
 		print("showed")
@@ -45,6 +47,7 @@ func display_text_portionwhise(text):
 	hide_m(0)
 	while animation_depth > 0:
 		yield(self, "animation_finalized")
+	self.active_message = false
 	emit_signal("dialogue_finalized")
 
 func hide_m(depth):

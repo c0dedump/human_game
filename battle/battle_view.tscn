@@ -1,8 +1,26 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://grid.gd" type="Script" id=1]
+[ext_resource path="res://assets/battle/platform.png" type="Texture" id=2]
+[ext_resource path="res://assets/message_box.png" type="Texture" id=3]
+[ext_resource path="res://battle/battle_manager.gd" type="Script" id=4]
+
+[sub_resource type="Animation" id=1]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 601.64 ), Vector2( -5.03967, -3.12207 ) ]
+}
 
 [node name="root" type="Node2D"]
+script = ExtResource( 4 )
 
 [node name="grid" type="Node2D" parent="."]
 position = Vector2( 249.182, 43.4182 )
@@ -11,3 +29,44 @@ width = 8
 height = 8
 x = 0
 y = 0
+
+[node name="place1" type="Node2D" parent="."]
+position = Vector2( 312.868, 426.216 )
+scale = Vector2( 3, 3 )
+z_index = 2
+
+[node name="place2" type="Node2D" parent="."]
+position = Vector2( 794.439, 151.911 )
+z_index = 2
+
+[node name="p1" type="Sprite" parent="."]
+position = Vector2( 792.263, 151.596 )
+rotation = 0.374402
+scale = Vector2( 6.09251, 6.09251 )
+texture = ExtResource( 2 )
+
+[node name="p2" type="Sprite" parent="."]
+position = Vector2( 340.602, 416.404 )
+rotation = 0.425163
+scale = Vector2( 10.0692, 10.0692 )
+texture = ExtResource( 2 )
+
+[node name="bettle_menu" type="Node2D" parent="."]
+position = Vector2( 0, 601.64 )
+
+[node name="menu_container" type="NinePatchRect" parent="bettle_menu"]
+margin_left = 5.03979
+margin_top = 15.1192
+margin_right = 1020.04
+margin_bottom = 580.119
+texture = ExtResource( 3 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="menu_animations" type="AnimationPlayer" parent="bettle_menu"]
+anims/menu_show = SubResource( 1 )

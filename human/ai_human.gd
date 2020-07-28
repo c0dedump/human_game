@@ -10,7 +10,6 @@ func custom_process(delta):
 			# then do the next move
 			var proposed_dir_pos = ( current_dir_pos + 1 ) % (len(self.path))
 			var action = path.substr(proposed_dir_pos, 1)
-			#print(action)
 			var i = game_controller.action_letter_index[action]
 			var sucess = perform_step(i,delta)
 			if sucess:

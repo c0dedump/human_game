@@ -12,3 +12,6 @@ func get_player():
 
 func message_system():
 	return self.get_node("cam/message_container/label")
+
+func is_message_active():
+	return message_system().active_message

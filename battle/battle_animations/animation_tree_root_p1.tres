@@ -1,0 +1,46 @@
+[gd_resource type="AnimationNodeBlendTree" load_steps=11 format=2]
+
+[sub_resource type="AnimationNodeAnimation" id=1]
+animation = "despawn"
+
+[sub_resource type="AnimationNodeAnimation" id=2]
+animation = "disappear"
+
+[sub_resource type="AnimationNodeAnimation" id=3]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "spawn"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=5]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=6]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=7]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=8]
+
+[sub_resource type="AnimationNodeStateMachine" id=9]
+states/despawn/node = SubResource( 1 )
+states/despawn/position = Vector2( 291, 216 )
+states/disappear/node = SubResource( 2 )
+states/disappear/position = Vector2( 553, 255 )
+states/idle/node = SubResource( 3 )
+states/idle/position = Vector2( 188, 89 )
+states/spawn/node = SubResource( 4 )
+states/spawn/position = Vector2( 470, 89 )
+transitions = [ "spawn", "idle", SubResource( 5 ), "idle", "despawn", SubResource( 6 ), "despawn", "disappear", SubResource( 7 ), "disappear", "spawn", SubResource( 8 ) ]
+
+[sub_resource type="AnimationNodeTransition" id=10]
+
+[resource]
+nodes/StateMachine/node = SubResource( 9 )
+nodes/StateMachine/position = Vector2( 480, 120 )
+nodes/Transition/node = SubResource( 10 )
+nodes/Transition/position = Vector2( 1040, 200 )
+nodes/output/position = Vector2( 820, 80 )
+node_connections = [ "output", 0, "StateMachine" ]

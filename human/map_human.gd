@@ -15,11 +15,17 @@ export var map_pos = Vector2(0.0, 0.0)
 
 export var agressor = false # is that human wants to fight
 
+export var entity_initializer = "" # for easy level creation a string is used to save all humans a enitie has for battle
+var entities = Array()
+
 var walk_matrix = game_controller.walk_matrix
 
 func _ready():
 	self.position = map_pos * game_controller.globals.tile_size
 	self.custom_ready()
+	#random_predifined_entites()
+	load_entities_from_string()
+	print_entities_json()
 
 func custom_ready():
 	pass # to be overwritten
@@ -27,6 +33,32 @@ func custom_ready():
 func _process(delta):
 	custom_process(delta)
 	process_walking(delta)
+
+func load_entities_from_string():
+	if entity_initializer != "":
+		var estrings = JSON.parse(entity_initializer).result
+		for e in estrings:
+			var e_raw = game_controller.battle_entities.get_bentity_by_name(e["name"]).duplicate()
+			e_raw.init_by_dict(e)
+			entities.append(e_raw)
+
+func print_entities_json():
+	var res = Array()
+	for e in entities:
+		res.append(e.print_json())
+	# prints the current player entites as json string
+	return JSON.print(res)
+
+func random_predifined_entites():
+	# helper method to make some entities
+	var raw_entity = game_controller.battle_entities.get_bentity_by_name("default")
+	raw_entity.level = 5
+	raw_entity.health = 100
+	entities.append(raw_entity)
+	entities.append(raw_entity)
+	entities.append(raw_entity)
+	# print(print_entities_json())
+	# self.entities.append()
 
 func process_walking(delta):
 	if(walking_dir != 0):
